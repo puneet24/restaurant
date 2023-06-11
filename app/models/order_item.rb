@@ -19,6 +19,6 @@ class OrderItem < ApplicationRecord
     def final_price
         discounted_price = self.applied_price - (self.applied_price * self.applied_discount/100)
         price = discounted_price + discounted_price * self.applied_tax_rate / 100
-        price
+        price.round(2)
     end
 end
