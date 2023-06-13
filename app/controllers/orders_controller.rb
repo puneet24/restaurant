@@ -8,13 +8,6 @@ class OrdersController < ApplicationController
     end
 
     def create
-        # @order = Order.create({user_id: @current_user.id})
-        # @order_items = []
-        # order_params["items"].each do |order_item|
-        #     order_item = OrderItem.create({ order_id: @order.id, item_id: order_item["id"] })
-        #     @order_items << order_item
-        # end
-        # @order.process_order
         @order = Order.create_order(@current_user.id, order_params)
         OrderNotificationJob.set(wait: 2.minutes).perform_later(@order.id)
         render json: {order: @order, items: @order.order_items }, status: :ok
